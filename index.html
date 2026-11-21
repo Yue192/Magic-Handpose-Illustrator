@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magical illustrator</title>
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <main>
+    <h1>Magical illustrator</h1>
+    <p class="intro">Create "magic" on the screen with your hands!</p>
+
+    <div id="camera-area">
+      <div id="canvas-container"></div>
+      <button id="help-button" type="button"
+        aria-haspopup="dialog" aria-controls="help-dialog">How to Play</button>
+    </div>
+
+    <p class="camera-note">Allow camera access and wait for hand tracking to load.</p>
+  </main>
+
+  <dialog id="help-dialog" aria-labelledby="help-title"
+    aria-describedby="help-summary">
+    <h2 id="help-title">How to Play</h2>
+    <p id="help-summary">Use your right hand for effects and your left hand for controls.</p>
+
+    <dl>
+      <dt>Sparkles · Right hand</dt>
+      <dd>Keep your fingers close together and wave your hand to create sparkles.</dd>
+
+      <dt>Stars · Right hand</dt>
+      <dd>Point your index finger upward and hold it still briefly to place a star.</dd>
+
+      <dt>Magic circles · Right hand</dt>
+      <dd>Start with your fingers together, then spread them as you lift your hand.</dd>
+
+      <dt>Color schemes · Left hand</dt>
+      <dd>Raise your index finger for scheme 1. Raise your index and middle fingers for scheme 2.</dd>
+
+      <dt>Clear · Left hand</dt>
+      <dd>Hold a fist for one second to clear stars and magic circles. Release before clearing again.</dd>
+    </dl>
+
+    <p class="tip">Keep your hand visible with your palm facing the camera. Good lighting helps. Press Esc or click outside this window to close it.</p>
+
+    <div class="dialog-actions">
+      <button id="close-help" type="button" autofocus>Got it</button>
+    </div>
+  </dialog>
+
+  <script>
+    // Open and close the instructions.
+    const helpDialog = document.getElementById("help-dialog");
+    const helpButton = document.getElementById("help-button");
+    const closeHelp = document.getElementById("close-help");
+
+    helpButton.addEventListener("click", () => {
+      if (!helpDialog.open) helpDialog.showModal();
+    });
+
+    closeHelp.addEventListener("click", () => {
+      helpDialog.close();
+    });
+
+    // Close only when the click is outside the dialog box.
+    helpDialog.addEventListener("click", (event) => {
+      if (event.target !== helpDialog) return;
+      const bounds = helpDialog.getBoundingClientRect();
+      const outside =
+        event.clientX < bounds.left || event.clientX > bounds.right ||
+        event.clientY < bounds.top || event.clientY > bounds.bottom;
+      if (outside) helpDialog.close();
+    });
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+  <script src="sketch.js"></script>
+</body>
+</html>
+
